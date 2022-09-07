@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MYGAME___</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arima', cursive;
+       
+    }
+    body{
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(to right, #ff512f , #dd2476);
+        /* background: rgba(255, 255, 255, 0.149); */
+        /* filter: blur(50px); */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: -1;
+        
+
+    }
+    .skeleton{
+        width: 300px;
+        height: 300px;
+        /* outline: 2px solid white; */
+        box-shadow: 2px 3px 4px black;
+        display: none;
+        grid-template-rows: 100px 100px 100px;
+        grid-template-columns: 100px 100px 100px;
+
+    }
+    .box{
+        width: 100px;
+        height: 100px;
+        outline: 2px solid white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       
+    }
+    .boxText{
+        width: 100px;
+        height: 100px;
+        outline: 2px solid white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* color: white; */
+        color: black;
+        
+       
+    }
+    .box:hover{
+        box-shadow: 2px 3px 4px white;
+    }
+    #info{
+        width: 200px;
+        height: 40px;
+        border-radius: 40px;
+        box-shadow: 2px 3px 4px black;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        margin: 50px;
+    }
+     #X,#o{
+        width: 200px;
+        height: 40px;
+        border-radius: 40px;
+        box-shadow: 2px 3px 4px black;
+        background: white;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        margin: 10px;
+    }
+    #won{
+        width: 200px;
+        height: 40px;
+        border-radius: 40px;
+        box-shadow: 2px 3px 4px black;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        margin: 10px;
+    }
+    
+.imgbox img{
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+.img1 img{
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+@media screen and (max-width: 950px){
+    .skeleton{
+        flex-wrap: wrap;
+    }
+}
+
+</style>
+<body>
+    <div class="skeleton">
+        <div class="box"><div class="boxText"></div></div>
+        <div class="box"><div class="boxText"></div></div>
+        <div class="box"><div class="boxText"></div></div>
+        <div class="box"><div class="boxText"></div></div>
+        <div class="box"><div class="boxText"></div></div>
+        <div class="box"><div class="boxText"></div></div>
+        <div class="box"><div class="boxText"></div></div>
+        <div class="box"><div class="boxText"></div></div>
+        <div class="box"><div class="boxText"></div></div>
+    </div>
+    <div id="info" style="margin:100px">start</div>
+    <div id="X">choose X</div>
+    <div id="o">choose 0</div>
+    <div class="imgbox">
+        <img src="excited.gif" alt="" />
+      </div>
+      <div class="img1">
+        <img src="1.gif" alt="">
+      </div>
+    <!-- <div id="won">won</div> -->
+    <script>
+      
+      let Skeleton=document.querySelector(".skeleton")
+const boxes=document.getElementsByClassName("box");
+var info=document.querySelector("#info");
+const valueX=document.getElementById("X");
+const valueO=document.getElementById("o")
+var  turn
+let audio= new Audio("ting.mp3")
+
+let isgameOver =false;
+ var checkWin=()=>{
+    let BoxText= document.getElementsByClassName("boxText")
+        let wins=[
+    [0,1,2],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6],
+    [6,7,8],
+    [3,4,5]
+    ];
+    wins.forEach(e => {
+        if ((BoxText[e[0]].innerText===BoxText[e[1]].innerText)&& (BoxText[e[1]].innerText===BoxText[e[2]].innerText)&&(BoxText[e[0]].innerText!=="")) {
+            isgameOver =true
+            if ((BoxText[e[0]].innerText===BoxText[e[1]].innerText)&& (BoxText[e[1]].innerText===BoxText[e[2]].innerText)&&(BoxText[e[0]].innerText!=="")&&(BoxText[e[2]].innerText==="X")) {
+                info.innerText=" X won"
+                Skeleton.style.cssText="display:none"
+                document.querySelector('.imgbox').getElementsByTagName('img')[0].style.width = "200px";
+                
+            }
+             if((BoxText[e[0]].innerText===BoxText[e[1]].innerText)&& (BoxText[e[1]].innerText===BoxText[e[2]].innerText)&&(BoxText[e[0]].innerText!=="")&&(BoxText[e[0]].innerText==="0")){
+                info.innerText=" 0 won" 
+                Skeleton.style.cssText="display:none"
+                document.querySelector('.img1').getElementsByTagName('img')[0].style.width = "200px";
+            }
+            
+        
+         
+         
+          info.style.cssText="font-size:40px"
+       
+         
+         
+        
+        
+           
+        }
+       
+           
+    });
+     }
+     console.log(checkWin);
+  
+    // console.log(wins[0][0]);
+        // start tab 
+        info.addEventListener("click",()=>{
+            Skeleton.style.display = "none"
+            valueX.style.display="flex"
+            valueO.style.display="flex"
+            info.style.display="none"
+
+       
+
+        }) 
+    var  clickOnX=false;  
+        valueX.addEventListener("click",()=>{
+            clickOnX=true;
+         turn="X";
+         if (!isgameOver) {
+            Skeleton.style.display ="grid"
+            valueX.style.display="none"
+            valueO.style.display="none"
+            info.style.display="flex"
+            // info.innerHTML="turn for X"
+            info.style.cssText="pointer-events: none"
+            info.style.cssText="display:none"
+         }
+        })   
+        let clickOnO=false
+        valueO.addEventListener("click",()=>{
+           clickOnO=true;
+           clickOnX=false
+            turn="0";
+        if (!isgameOver) {
+            Skeleton.style.display ="grid"
+            valueX.style.display="none"
+            valueO.style.display="none"
+            info.style.display="flex"
+            // info.innerHTML="turn for 0"
+            info.style.cssText="pointer-events: none"
+            info.style.cssText="display:none"
+        }
+        })  
+       
+const changeTurn=()=>{
+if(turn==="X"){
+    turn="X"
+    return turn==="X"?"0":"X"
+}
+else if(turn==="0"){
+    turn="0"
+return turn==="0"?"X":"0"
+}
+else{
+    turn="X"
+    return turn==="X"?"0":"X"
+}
+}
+Array.from(boxes).forEach(element => {
+    const BoxText=element.querySelector(".boxText")
+    element.addEventListener("click",()=>{
+        if (BoxText.innerHTML==="") {
+            BoxText.innerHTML=turn;
+            turn=changeTurn()
+            BoxText.style.cssText="font-size:80px"
+            audio.play()
+            checkWin()
+           
+            if (isgameOver===false) {
+                info.innerHTML=`turn for ${turn}`
+            }
+        }
+
+    })
+});
+    
+ 
+  
+    // console.log( isgameOver);
+    </script>
+</body>
+</html>
